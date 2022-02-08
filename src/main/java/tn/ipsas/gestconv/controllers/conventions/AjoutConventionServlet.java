@@ -21,6 +21,15 @@ public class AjoutConventionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        if ( !AuthUtils.testAuth(request, response) ) {
+            // On arrete
+            return;
+        };
+        if ( !AuthUtils.isAdmin(request, response) ) {
+            // On arrete
+            return;
+        };
+
         request.setAttribute("participants", ParticipantDAO.getAll());
         request.setAttribute("typeConventions", TypeConventionType.values());
         request.getServletContext()
@@ -31,6 +40,15 @@ public class AjoutConventionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        doGet(request, response);
+        if ( !AuthUtils.testAuth(request, response) ) {
+            // On arrete
+            return;
+        };
+        if ( !AuthUtils.isAdmin(request, response) ) {
+            // On arrete
+            return;
+        };
+
         String errorMessage="";
         String[] participantsId = request.getParameterValues("participants_id");
         String titreConvention = request.getParameter("titre_convention");

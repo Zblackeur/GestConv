@@ -3,6 +3,7 @@ package tn.ipsas.gestconv.controllers;
 import tn.ipsas.gestconv.models.beans.User;
 import tn.ipsas.gestconv.models.beans.utils.TypeConventionType;
 import tn.ipsas.gestconv.models.dao.ConventionDAO;
+import tn.ipsas.gestconv.utils.AuthUtils;
 import tn.ipsas.gestconv.utils.HibernateUtil;
 
 import javax.servlet.ServletException;
@@ -22,6 +23,10 @@ public class HelloServlet extends HttpServlet {
     }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
+        if ( !AuthUtils.testAuth(request, response) ) {
+            // On arrete
+            return;
+        };
         request.setAttribute("typeConventions", TypeConventionType.values());
 
         String action = request.getParameter("action");

@@ -8,21 +8,7 @@ import tn.ipsas.gestconv.utils.HibernateUtil;
 public class UserDAO {
 
     public static void  saveUser(User user) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // start a transaction
-            transaction = session.beginTransaction();
-            // save the user object
-            session.save(user);
-
-            // commit transaction
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+        HibernateUtil.create(user);
     }
     public static User getUser(String username) {
 
@@ -31,8 +17,8 @@ public class UserDAO {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             // start a transaction
             transaction = session.beginTransaction();
-            // get an user object
-            user = session.get(User.class, username);
+            // get an convention object
+            user  = session.get(User.class, username);
             // commit transaction
             transaction.commit();
         } catch (Exception e) {

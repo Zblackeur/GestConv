@@ -6,14 +6,19 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<h1>${successMessage}</h1>
-<br/>
+<h1 style="color: lime">${sessionScope.successMessage}</h1>
+<c:set var="successMessage" value="" scope="session" />
 <ul>
     <li><a href="${pageContext.request.contextPath}/index">Accueil</a></li>
     <li><a href="${pageContext.request.contextPath}/convention/ajout">Ajouter une convention</a></li>
     <li><a href="${pageContext.request.contextPath}/participant/ajout">Ajouter un Participant</a></li>
-    <li><a href="${pageContext.request.contextPath}/index">LOGIN</a></li>
-    <li><a href="${pageContext.request.contextPath}/index">Register</a></li>
+    <c:if test="${empty user}">
+        <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
+        <li><a href="${pageContext.request.contextPath}/register">Register</a></li>
+    </c:if>
+    <c:if test="${not empty user}">
+        <li><a href="${pageContext.request.contextPath}/logout">Logout ${user.getId()}</a></li>
+    </c:if>
 </ul>
 
 <form method="get" action="/index">
@@ -36,7 +41,7 @@
 <div style="color: red"> ${errorMessage}</div>
 <h2> Voici la liste des conventions: </h2>
 <c:forEach items="${conventions}" var="convention">
-    <div class="conv"${convention.getId()}"style="border: 2px solid #FF0000; margin: 10px">
+    <div class="conv${convention.getId()}" style="border: 2px solid #FF0000; margin: 10px">
         <div class="form${convention.getId()}">
             <form method="post" action="/admin/convention/suprimer">
                 <input type="hidden" name="idconv" value="${convention.getId()}">

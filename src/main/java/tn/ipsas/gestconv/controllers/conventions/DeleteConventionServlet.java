@@ -14,11 +14,29 @@ import java.io.IOException;
 public class DeleteConventionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if ( !AuthUtils.testAuth(request, response) ) {
+            // On arrete
+            return;
+        };
+        if ( !AuthUtils.isAdmin(request, response) ) {
+            // On arrete
+            return;
+        };
         response.sendRedirect("/index");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if ( !AuthUtils.testAuth(request, response) ) {
+            // On arrete
+            return;
+        };
+        if ( !AuthUtils.isAdmin(request, response) ) {
+            // On arrete
+            return;
+        };
+
         int idconv = Integer.parseInt(request.getParameter("idconv"));
         ConventionDAO.deleteConvention(
                 (Convention) HibernateUtil.get(Convention.class, idconv)

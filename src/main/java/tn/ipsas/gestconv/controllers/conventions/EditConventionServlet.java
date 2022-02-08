@@ -14,6 +14,14 @@ import java.time.LocalDate;
 public class EditConventionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if ( !AuthUtils.testAuth(request, response) ) {
+            // On arrete
+            return;
+        };
+        if ( AuthUtils.isAdmin(request, response) ) {
+            // On arrete
+            return;
+        };
 
         int idconv = Integer.parseInt(request.getParameter("idconv"));
 
@@ -26,6 +34,15 @@ public class EditConventionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if ( !AuthUtils.testAuth(request, response) ) {
+            // On arrete
+            return;
+        };
+        if ( !AuthUtils.isAdmin(request, response) ) {
+            // On arrete
+            return;
+        };
+
         int idconv = Integer.parseInt(request.getParameter("idconv"));
 
         Convention convention = ConventionDAO.getConvention(idconv);
